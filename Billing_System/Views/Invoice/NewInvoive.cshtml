@@ -1,0 +1,105 @@
+﻿
+@{
+    ViewBag.Title = "NewInvoive";
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+
+<script>
+    $(document).ready(function () {
+        $("#ddproduct").change(function () {
+            GetProduct();
+        })
+    })
+
+    function GetProduct()
+    {
+        var pid = $("#ddproduct").val();
+        $.ajax({
+            url: '/Product/GetProduct' + pid,
+            method: 'get',
+            contentType: 'application/json',
+            success: function (resp) {
+                $("#txtrate").val(resp.rate);
+                $("#txttax").val(resp.tax);
+                $("#txtstock").val(resp.stock);
+                 
+            }
+        })
+    }
+</script>
+<h2>New Invoive</h2>
+
+<table class="table table-borderless">
+    <tr>
+        <td>
+            <label>Customer Name</label>
+            @Html.DropDownList("ddcustomer", ViewBag.customer as List<SelectListItem>, "Select Customer");
+        </td>
+
+        <td>
+            <label>Invoice Date</label>
+            <input type="datetime" id="txtdate" />
+        </td>
+    </tr>
+</table>
+<hr />
+<table class="table table-borderless">
+    <tr>
+        <td>
+            <label>Product</label>
+            @Html.DropDownList("ddproduct", ViewBag.product as List<SelectListItem>, "Select Product");
+        </td>
+
+        <td>
+            <label>Rate</label>
+            <input type="text" id="txtrate" />
+        </td>
+
+        <td>
+            <label>Tax</label>
+            <input type="text" id="txttax" />
+        </td>
+
+        <td>
+            <label>Stock</label>
+            <input type="text" id="txtstock" />
+        </td>
+
+        <td>
+            <label>Purchase Quantity</label>
+            <input type="text" id="txtpquant" />
+        </td>
+
+        <td>
+            <label>Total</label>
+            <input type="text" id="txttotal" />
+        </td>
+
+        <td>
+            <input type="button" value="+" id="txtadd" />
+        </td>
+    </tr>
+</table>
+
+<table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Sr no</th>
+                <th>Product Name</th>
+                <th>Rate</th>
+                <th>Tax</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+
+    <tbody id="tbdata"></tbody>
+    <tfoot>
+        <tr>
+            <td colspan="5" style="text-align:right;">Total</td>
+            <td><b id="txtfinal"></b></td>
+        </tr>
+    </tfoot>
+</table>
+<hr />
+<input type="button" value="submit" id="btnsubmit" class="btn btn-outline-primary"/>

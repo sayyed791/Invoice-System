@@ -1,0 +1,87 @@
+﻿@model IEnumerable<Billing_System.Models.tblcutomer>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+
+<!-- Include Bootstrap CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f4f4;
+    }
+
+    .container {
+        margin-top: 20px;
+    }
+
+    .table-responsive {
+        overflow-y: auto;
+        max-height: 350px;
+    }
+
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .action-links {
+        white-space: nowrap;
+    }
+    thead {
+        position:sticky;
+        top:0;
+    }
+</style>
+
+<div class="container">
+    <div class="link-to-table">
+        @Html.ActionLink("Go to Form", "Customer", null, new { @class = "btn btn-warning" })
+    </div>
+
+    <h2 class="text-center">Customer List</h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Customer Name</th>
+                    <th>Email Address</th>
+                    <th>Mobile Number</th>
+                    <th>Password</th>
+                    <th>City</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @{
+                    int i = 1;
+                }
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.customer_name</td>
+                        <td>@item.email_address</td>
+                        <td>@item.mobile_number</td>
+                        <td>@item.pass</td>
+                        <td>@item.city</td>
+                        <td class="action-links">
+                            @Html.ActionLink("Delete", "Delete", new { @id = item.customer_id }, new { @class = "btn btn-danger btn-sm" })
+                            @Html.ActionLink("Edit", "Edit", new { @id = item.customer_id }, new { @class = "btn btn-success btn-sm" })
+                        </td>
+                    </tr>
+                    i++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Include Bootstrap JS and Popper.js (required for Bootstrap) -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

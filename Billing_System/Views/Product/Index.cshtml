@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+
+
+
+
+
+@model Billing_System.Models.tblproduct
+@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/MyLayout.cshtml";
+}
+
+<style>
+    .card-title {
+        text-align:center;    
+    }
+  
+</style>
+
+<script>
+    $(document).ready(function () {
+        Fetchproduct();
+        $("#btnsubmit").click(function () {
+            NewProduct();
+        })
+    })
+
+    function NewProduct()
+    {
+        var pname = $("#txtpname").val();
+        var prate = $("#txtrate").val();
+        var ptax = $("#txttax").val();
+        var pstock = $("#txtstock").val();
+
+        var st = { "Product_name": pname, "Product_rate": prate, "Tax": ptax, "Stock": pstock };
+
+        $.ajax({
+            url: '/Product/AddProduct',
+            method: 'post',
+            data: JSON.stringify(st),
+            contentType: 'application/jscon',
+            success: function (resp) {
+                alert(resp);
+                ClearData();
+            }
+        })
+    }
+
+    function Fetchproduct()
+    {
+        $.ajax({
+            url: '/Product/GetProducts',
+            method: 'get',
+            contentType: 'application/jscon',
+            success: function (resp) {
+                $("#tbdata").empty();
+                $.each(resp,function(i, d)
+                {
+                    $("#tbdata").apppend("<tr><td>" + (i + 1) + "</td><td>" + d.Product_name + "</td><td>" + d.Product_rate + "</td><td>" + d.Product_rate + "</td><td>" + d.Stock + "</td><tr>")
+                })
+            }
+        })
+    }
+    function ClearData() {
+        $("#txtpname").val("");
+        $("#txtrate").val("");
+        $("#txttax").val("");
+        $("#txtstock").val("");
+    }
+    
+</script>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card my-4">
+            <div class="card-header">
+                <h3 class="card-title">Product Data</h3>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">  
+                    <label>Product Name</label>
+                    <input type="text" id="txtpname" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label >Product Rate</label>
+                    <input type="text" id="txtrate" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label >Tax</label>
+                    <input type="text" id="txttax" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label >Stock Quantity</label>
+                    <input type="text" id="txtstock" class="form-control" />
+                </div>
+
+            </div>
+                <div class="card-footer">
+                    <button class="btn btn-outline-info" id="btnsubmit" type="submit">Submit</button>
+                </div>
+        </div>
+    </div>
+
+<div class="col-md-8 my-4">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Sr NO</th>
+                <th>Product Name</th>
+                <th>Product Rate</th>
+                <th>Tax</th>
+                <th>Stock Quantity</th>
+            </tr>
+        </thead>
+        <tbody id="tbdata">
+           
+        </tbody>
+    </table>
+</div>
+</div>
+
+
+        
